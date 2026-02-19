@@ -3,13 +3,30 @@ import { pool } from '../config/db.js';
 import { ApiError } from '../utils/apiError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
+function normalizeTags(value) {
+  if (Array.isArray(value)) {
+    return value.map((tag) => String(tag)).filter(Boolean);
+  }
+
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? parsed.map((tag) => String(tag)).filter(Boolean) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  return [];
+}
+
 function mapConcept(row) {
   return {
     id: row.id,
     title: row.title,
     category: row.category,
     definition: row.definition,
-    tags: JSON.parse(row.tags || '[]'),
+    tags: normalizeTags(row.tags),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -46,11 +63,12 @@ export const getConceptById = asyncHandler(async (req, res) => {
 export const createConcept = asyncHandler(async (req, res) => {
   const { title, category, definition, tags } = req.body;
   const id = randomUUID();
+  const normalizedTags = normalizeTags(tags);
 
   await pool.query(
     `INSERT INTO concepts (id, user_id, title, category, definition, tags)
      VALUES (?, ?, ?, ?, ?, ?)`,
-    [id, req.user.id, title.trim(), category, definition, JSON.stringify(tags || [])],
+    [id, req.user.id, title.trim(), category, definition, JSON.stringify(normalizedTags)],
   );
 
   const [rows] = await pool.query(
@@ -66,12 +84,13 @@ export const createConcept = asyncHandler(async (req, res) => {
 
 export const updateConcept = asyncHandler(async (req, res) => {
   const { title, category, definition, tags } = req.body;
+  const normalizedTags = normalizeTags(tags);
 
   const [result] = await pool.query(
     `UPDATE concepts
      SET title = ?, category = ?, definition = ?, tags = ?, updated_at = NOW()
      WHERE id = ? AND user_id = ?`,
-    [title.trim(), category, definition, JSON.stringify(tags || []), req.params.conceptId, req.user.id],
+    [title.trim(), category, definition, JSON.stringify(normalizedTags), req.params.conceptId, req.user.id],
   );
 
   if (result.affectedRows === 0) {

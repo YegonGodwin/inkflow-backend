@@ -30,6 +30,17 @@ Protected routes:
 - Essays: `GET/POST /api/essays`, `GET/PUT/DELETE /api/essays/:essayId`, `POST /api/essays/:essayId/improve`
 - Concepts: `GET/POST /api/concepts`, `GET/PUT/DELETE /api/concepts/:conceptId`
 - Progress: `GET /api/progress/overview`
+- Technology:
+  - `GET /api/technology/topics`
+  - `POST /api/technology/topics/:topicId/follow`
+  - `DELETE /api/technology/topics/:topicId/follow`
+  - `GET /api/technology/insights`
+  - `POST /api/technology/insights`
+  - `PUT /api/technology/insights/:insightId`
+  - `DELETE /api/technology/insights/:insightId`
+  - `POST /api/technology/briefs`
+  - `POST /api/technology/outlines`
+  - `POST /api/technology/outlines/:outlineId/create-essay`
 
 Health endpoint:
 - `GET /health`

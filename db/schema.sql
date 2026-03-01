@@ -170,3 +170,21 @@ SELECT * FROM (
 WHERE NOT EXISTS (
   SELECT 1 FROM technology_topics existing WHERE existing.id = seed.id
 );
+
+CREATE TABLE IF NOT EXISTS projects (
+  id CHAR(36) PRIMARY KEY,
+  user_id BIGINT UNSIGNED NOT NULL,
+  title VARCHAR(180) NOT NULL,
+  description TEXT NOT NULL,
+  status ENUM('Idea', 'Planning', 'In Progress', 'Completed', 'On Hold') NOT NULL DEFAULT 'Idea',
+  priority ENUM('Low', 'Medium', 'High') NOT NULL DEFAULT 'Medium',
+  tags JSON NOT NULL,
+  notes TEXT NOT NULL,
+  resources JSON NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_projects_user
+    FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE,
+  INDEX idx_projects_user_updated (user_id, updated_at)
+);

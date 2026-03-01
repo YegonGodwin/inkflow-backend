@@ -5,6 +5,7 @@ import authRoutes from './routes/authRoutes.js';
 import conceptRoutes from './routes/conceptRoutes.js';
 import essayRoutes from './routes/essayRoutes.js';
 import progressRoutes from './routes/progressRoutes.js';
+import projectRoutes from './routes/projectRoutes.js';
 import technologyRoutes from './routes/technologyRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFound } from './middleware/notFound.js';
@@ -26,6 +27,7 @@ app.get('/health', (_req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/essays', essayRoutes);
 app.use('/api/concepts', conceptRoutes);
+app.use('/api/projects', projectRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/technology', technologyRoutes);
 

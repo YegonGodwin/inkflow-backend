@@ -44,3 +44,6 @@ Protected routes:
 
 Health endpoint:
 - `GET /health`
+
+Projects
+  `POST /api/projects/`

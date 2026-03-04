@@ -18,7 +18,7 @@ import { validateRequest } from '../middleware/validateRequest.js';
 const router = Router();
 
 const priorities = ['low', 'medium', 'high'];
-const statuses = ['Collected', 'Analyzed', 'Drafted'];
+const statuses = ['Learned', 'To Learn'];
 
 router.use(requireAuth);
 
@@ -44,7 +44,7 @@ router.get(
   '/insights',
   [
     query('topicId').optional().isUUID().withMessage('topicId must be a valid UUID'),
-    query('status').optional().isIn(statuses).withMessage('status must be Collected, Analyzed, or Drafted'),
+    query('status').optional().isIn(statuses).withMessage('status must be Learned or To Learn'),
     query('q').optional().isString().isLength({ max: 200 }).withMessage('q must be up to 200 chars'),
     validateRequest,
   ],
@@ -63,7 +63,7 @@ router.post(
       .withMessage('Content must be 1-10000 chars'),
     body('sourceUrl').optional({ nullable: true }).isURL().withMessage('sourceUrl must be a valid URL'),
     body('tags').optional().isArray().withMessage('tags must be an array'),
-    body('status').optional().isIn(statuses).withMessage('status must be Collected, Analyzed, or Drafted'),
+    body('status').optional().isIn(statuses).withMessage('status must be Learned or To Learn'),
     validateRequest,
   ],
   createInsight,
@@ -83,7 +83,7 @@ router.put(
       .withMessage('Invalid content'),
     body('sourceUrl').optional({ nullable: true }).isURL().withMessage('sourceUrl must be a valid URL'),
     body('tags').optional().isArray().withMessage('tags must be an array'),
-    body('status').optional().isIn(statuses).withMessage('status must be Collected, Analyzed, or Drafted'),
+    body('status').optional().isIn(statuses).withMessage('status must be Learned or To Learn'),
     body().custom((value) => {
       const allowedKeys = ['topicId', 'title', 'content', 'sourceUrl', 'tags', 'status'];
       const hasAny = allowedKeys.some((key) => Object.prototype.hasOwnProperty.call(value, key));

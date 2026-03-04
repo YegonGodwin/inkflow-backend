@@ -6,8 +6,9 @@ Express + MySQL backend for Inkflow web app.
 
 1. Copy `.env.example` to `.env` and fill values.
 2. Create schema by running `backend-service/db/schema.sql` in MySQL.
-3. Install dependencies: `npm install`
-4. Run: `npm run dev`
+3. If you already had technology insights with legacy statuses, run `backend-service/db/migrate_technology_learning_state.sql`.
+4. Install dependencies: `npm install`
+5. Run: `npm run dev`
 
 ## Auth Workflow
 

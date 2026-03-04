@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS technology_insights (
   content TEXT NOT NULL,
   source_url VARCHAR(500) NULL,
   tags JSON NOT NULL,
-  status ENUM('Collected', 'Analyzed', 'Drafted') NOT NULL DEFAULT 'Collected',
+  status ENUM('Learned', 'To Learn') NOT NULL DEFAULT 'To Learn',
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT fk_technology_insights_user

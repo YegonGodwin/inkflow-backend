@@ -190,7 +190,7 @@ export const createInsight = asyncHandler(async (req, res) => {
       content,
       sourceUrl || null,
       JSON.stringify(tags || []),
-      status || 'Collected',
+      status || 'To Learn',
     ],
   );
 
